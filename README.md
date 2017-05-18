@@ -1,7 +1,7 @@
 # [EPOCH 1.0.6.1] Safe Zone Relocate Script
 Safe Zone Relocate 
 
-* Discussion URL: 
+* Discussion URL: https://epochmod.com/forum/topic/43927-release-safe-zone-relocate/
 	
 * Tested as working on a blank Epoch 1.0.6.1
 * Simple relocate only safe zone script.
