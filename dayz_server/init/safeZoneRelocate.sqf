@@ -2,9 +2,12 @@
 	Safe Zone Relocate by salival (https://github.com/oiad)
 */
 
-private ["_maxDist","_nearVehicles","_objDist","_position","_safeZoneRadius","_safeZonePos"];
+private ["_customPosition","_customRadius","_maxDist","_nearVehicles","_objDist","_position","_safeZonePos","_safeZoneRadius","_useCustomPosition"];
 
-_maxDist = 1000; // Maximum distance from the safe zone position to find a safe position for relocation.
+_useCustomPosition = false; // Enable a custom position to move vehicles to (i.e a junk yard)
+_customPosition = [6942.64,15121.6,0]; // Position for vehicles to be moved to if _useCustomPosition = true;
+_customRadius = 5; // Minimum distance from the custom position to move vehicles to 
+_maxDist = 1000; // Maximum distance from the safe zone position to find a safe position or custom position for relocation, setting this too low can make vehicles spawn very close to other vehicles.
 _objDist = 15; // Minimum distance from the safe position for relocation to the center of the nearest object. Specifying quite a large distance here will slow the function and might often fail to find a suitable position.
 
 {
@@ -12,7 +15,11 @@ _objDist = 15; // Minimum distance from the safe position for relocation to the 
 	_safeZoneRadius = _x select 1;
 	_nearVehicles = _safeZonePos nearEntities [["Air","LandVehicle","Ship"],_safeZoneRadius];
 	{
-		_position = [_safeZonePos,_safeZoneRadius + 50,_maxDist,_objDist,if (_x isKindOf "Ship") then {2} else {0},0,0,[],[_safeZonePos,_safeZonePos]] call BIS_fnc_findSafePos;
+		if (_useCustomPosition) then {
+			_position = [_customPosition,_customRadius,_maxDist,_objDist,1,0,0,[]] call BIS_fnc_findSafePos;
+		} else {
+			_position = [_safeZonePos,_safeZoneRadius + 50,_maxDist,_objDist,if (_x isKindOf "Ship") then {2} else {0},0,0,[],[_safeZonePos,_safeZonePos]] call BIS_fnc_findSafePos;
+		};
 		_x setPos _position;
 		[_x,"position"] call server_updateObject;
 
