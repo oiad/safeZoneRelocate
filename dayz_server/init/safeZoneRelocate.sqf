@@ -19,7 +19,7 @@ _maxDamage = 0.75; // Vehicles above this amount of damage will be deleted
 	{
 		if (damage _x > _maxDamage) then {
 			deleteVehicle _x;
-			[_x getVariable["ObjectID","0"],_x getVariable["ObjectUID","0"],"safeZoneRelocate"] call server_deleteObj;
+			[_x getVariable["ObjectID","0"],_x getVariable["ObjectUID","0"],"safeZoneRelocate"] call server_deleteObjDirect;
 			diag_log format ["[SAFEZONE] %1 was deleted from the server for being too damaged before relocate: @%2 %3",typeOf _x,mapGridPosition _x,getPosATL _x];
 		} else {
 			if (_useCustomPosition) then {
